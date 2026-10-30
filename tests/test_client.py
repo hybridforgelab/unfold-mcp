@@ -27,12 +27,28 @@ def test_env_is_read_from_os_by_default(monkeypatch):
     assert target(P).headers["X-RapidAPI-Key"] == "from-os"
 
 
+def test_apimarket_when_only_its_key_is_set_or_chosen():
+    t = target(P, {"API_MARKET_KEY": "mk"})
+    assert t.market == "apimarket" and t.base == "https://prod.api.market/api/v1/hybrid-forge-lab/unfold"
+    assert t.headers == {"x-api-market-key": "mk"}
+    assert target(P, {"RAPIDAPI_KEY": "rk", "API_MARKET_KEY": "mk", "HFL_MARKETPLACE": "apimarket"}).market == "apimarket"
+    assert target(P, {"RAPIDAPI_KEY": "rk", "API_MARKET_KEY": "mk"}).market == "rapidapi"
+    assert target(P, {"RAPIDAPI_KEY": "rk", "API_MARKET_KEY": "mk", "HFL_MARKETPLACE": "rapidapi"}).market == "rapidapi"
+
+
 def test_key_errors_explain_what_to_do():
-    with pytest.raises(ToolError, match="No API key. Set RAPIDAPI_KEY.*RapidAPI only"):
-        target(P, {"API_MARKET_KEY": "mk"})
-    with pytest.raises(ToolError) as e:
+    with pytest.raises(ToolError, match="No API key. Set RAPIDAPI_KEY .*api.market"):
         target(P, {})
-    assert "No API key. Set RAPIDAPI_KEY" in str(e.value) and "API_MARKET_KEY" not in str(e.value)
+    with pytest.raises(ToolError, match="API_MARKET_KEY is not set"):
+        target(P, {"RAPIDAPI_KEY": "rk", "HFL_MARKETPLACE": "apimarket"})
+
+
+async def test_apimarket_refusal_points_to_the_store(api, monkeypatch):
+    monkeypatch.delenv("RAPIDAPI_KEY")
+    monkeypatch.setenv("API_MARKET_KEY", "mk")
+    api.queue(403, {"message": "no"})
+    with pytest.raises(ToolError, match="api.market/store/hybrid-forge-lab/unfold"):
+        await call(P, "GET", "/x")
 
 
 async def test_success_adds_quota_and_user_agent(api):

@@ -10,6 +10,8 @@ import httpx
 from mcp.server.mcpserver.exceptions import ToolError
 
 RAPIDAPI_LISTING = "https://rapidapi.com/hybrid-forge-lab-hybrid-forge-lab-default/api/"
+APIMARKET_BASE = "https://prod.api.market/api/v1/hybrid-forge-lab/"
+APIMARKET_STORE = "https://api.market/store/hybrid-forge-lab/"
 USER_AGENT = "unfold-mcp/0.1 (+https://unfold.hybridforgelab.com)"
 TIMEOUT = httpx.Timeout(60.0, connect=10.0)
 
@@ -22,6 +24,7 @@ class Product:
     slug: str
     name: str
     rapidapi: str  # RapidAPI listing slug; the host is "<slug>.p.rapidapi.com"
+    apimarket: bool  # sold on api.market too
 
     @property
     def rapidapi_host(self) -> str:
@@ -33,7 +36,7 @@ class Product:
 
 
 PRODUCTS = {
-    "unfold": Product("unfold", "Unfold", "unfold-document-to-markdown-api"),
+    "unfold": Product("unfold", "Unfold", "unfold-document-to-markdown-api", apimarket=True),
 }
 
 
@@ -41,7 +44,7 @@ PRODUCTS = {
 class Target:
     base: str
     headers: dict[str, str]
-    market: str  # "rapidapi" or "direct"
+    market: str  # "rapidapi", "apimarket" or "direct"
 
 
 def target(product: Product, env: dict[str, str] | None = None) -> Target:
@@ -51,11 +54,16 @@ def target(product: Product, env: dict[str, str] | None = None) -> Target:
     # Maintainers only: call our own host directly with an internal bearer key.
     if env.get("HFL_API_URL") and env.get("HFL_API_BEARER"):
         return Target(env["HFL_API_URL"].rstrip("/"), {"Authorization": f"Bearer {env['HFL_API_BEARER']}"}, "direct")
-    rapid = env.get("RAPIDAPI_KEY", "")
+    rapid, market = env.get("RAPIDAPI_KEY", ""), env.get("API_MARKET_KEY", "")
+    choice = env.get("HFL_MARKETPLACE", "").lower()
+    if choice == "apimarket" or (market and not rapid and choice != "rapidapi"):
+        if not market:
+            raise ToolError("HFL_MARKETPLACE is apimarket but API_MARKET_KEY is not set.")
+        return Target(APIMARKET_BASE + product.slug, {"x-api-market-key": market}, "apimarket")
     if not rapid:
-        hint = " Unfold is sold on RapidAPI only, so API_MARKET_KEY doesn't apply." if env.get("API_MARKET_KEY") else ""
-        raise ToolError(f"No API key. Set RAPIDAPI_KEY (free Basic plan: {product.plans}) in this MCP "
-                        f"server's environment, then restart it.{hint}")
+        where = f" or API_MARKET_KEY ({APIMARKET_STORE}{product.slug})" if product.apimarket else ""
+        raise ToolError(f"No API key. Set RAPIDAPI_KEY (free Basic plan: {product.plans}){where} in this MCP "
+                        "server's environment, then restart it.")
     return Target(f"https://{product.rapidapi_host}",
                   {"X-RapidAPI-Key": rapid, "X-RapidAPI-Host": product.rapidapi_host}, "rapidapi")
 
@@ -83,7 +91,7 @@ async def call(product: Product, method: str, path: str, *, json: Any = None, pa
     except httpx.HTTPError as exc:
         raise ToolError(f"The {product.name} API could not be reached ({type(exc).__name__}). Try again later.")
     if r.status_code in (401, 403):
-        how = product.plans
+        how = f"{APIMARKET_STORE}{product.slug}" if t.market == "apimarket" else product.plans
         raise ToolError(f"The {product.name} API refused the key (HTTP {r.status_code}: {_detail(r)}). "
                         f"Check the key and the subscription: {how}")
     if r.status_code == 429:
