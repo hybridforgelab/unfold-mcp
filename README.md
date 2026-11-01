@@ -4,7 +4,7 @@ Give your AI agent the content of PDF, Word (DOCX), PowerPoint (PPTX) and Excel 
 
 The server is open source (MIT). It calls the [Unfold API](https://unfold.hybridforgelab.com), which is paid, with a free plan.
 
-- You use **your own RapidAPI key**.
+- You use **your own key, from RapidAPI or api.market**.
 - Every tool call is one request on your plan.
 - The free Basic plan has 15 requests a month, with a hard limit, so it never runs up a bill.
 
@@ -13,6 +13,7 @@ The server is open source (MIT). It calls the [Unfold API](https://unfold.hybrid
 | marketplace | |
 |---|---|
 | RapidAPI | [plans](https://rapidapi.com/hybrid-forge-lab-hybrid-forge-lab-default/api/unfold-document-to-markdown-api/pricing) |
+| api.market | [store](https://api.market/store/hybrid-forge-lab/unfold) |
 
 ## 2. Add the server to your MCP client
 
@@ -43,6 +44,8 @@ claude mcp add unfold --env RAPIDAPI_KEY=your-rapidapi-key -- uvx --from hybridf
 | variable | meaning |
 |---|---|
 | `RAPIDAPI_KEY` | your RapidAPI key |
+| `API_MARKET_KEY` | your api.market key, used when `RAPIDAPI_KEY` is not set |
+| `HFL_MARKETPLACE` | `rapidapi` or `apimarket`, when both keys are set |
 
 Without a key the server still starts. The first tool call then explains where to get one.
 
@@ -82,7 +85,7 @@ uv venv && uv pip install -e ".[dev]"
 .venv/bin/ruff check src tests scripts
 ```
 
-`scripts/e2e_stdio.py unfold` runs the server over stdio, as a client would, and calls its tools against the real API. It needs `RAPIDAPI_KEY`.
+`scripts/e2e_stdio.py unfold` runs the server over stdio, as a client would, and calls its tools against the real API. It needs `RAPIDAPI_KEY` or `API_MARKET_KEY`.
 
 ## Licence
 
