@@ -6,7 +6,17 @@
       "package-name": "hybridforgelab-unfold-mcp",
       "changelog-path": "CHANGELOG.md",
       "extra-files": [
-        "src/unfold_mcp/__init__.py"
+        "src/unfold_mcp/__init__.py",
+        {
+          "type": "json",
+          "path": "server.json",
+          "jsonpath": "$.version"
+        },
+        {
+          "type": "json",
+          "path": "server.json",
+          "jsonpath": "$.packages[0].version"
+        }
       ]
     }
   }
