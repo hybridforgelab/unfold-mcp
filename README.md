@@ -1,5 +1,7 @@
 # Unfold MCP server
 
+<!-- mcp-name: io.github.hybridforgelab/unfold-mcp -->
+
 Give your AI agent the content of PDF, Word (DOCX), PowerPoint (PPTX) and Excel (XLSX) documents as Markdown, from a URL or a local file.
 
 The server is open source (MIT). It calls the [Unfold API](https://unfold.hybridforgelab.com), which is paid, with a free plan.
