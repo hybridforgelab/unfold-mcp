@@ -1,5 +1,17 @@
 # Changelog
 
+## [0.2.2](https://github.com/hybridforgelab/unfold-mcp/compare/hybridforgelab-unfold-mcp-v0.2.1...hybridforgelab-unfold-mcp-v0.2.2) (2026-11-03)
+
+
+### Bug Fixes
+
+* link the PyPI page to the GitHub repo ([#12](https://github.com/hybridforgelab/unfold-mcp/issues/12)) ([9e5a7b6](https://github.com/hybridforgelab/unfold-mcp/commit/9e5a7b637283a0813c6d112d4a435e6220e7d6f2))
+
+
+### Documentation
+
+* M8ven Trust Index badge ([#10](https://github.com/hybridforgelab/unfold-mcp/issues/10)) ([df9b6ab](https://github.com/hybridforgelab/unfold-mcp/commit/df9b6ab47fac95bbfc399e0eea7156fcb1a062fb))
+
 ## [0.2.1](https://github.com/hybridforgelab/unfold-mcp/compare/hybridforgelab-unfold-mcp-v0.2.0...hybridforgelab-unfold-mcp-v0.2.1) (2026-11-03)
 
 
