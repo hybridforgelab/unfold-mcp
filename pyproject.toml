@@ -1,6 +1,6 @@
 [project]
 name = "hybridforgelab-unfold-mcp"
-version = "0.2.1"
+version = "0.2.2"
 description = "PDF, DOCX, PPTX and XLSX documents to Markdown for LLM agents, from a URL or a local file. Bring your own RapidAPI or api.market key."
 readme = "README.md"
 license = "MIT"
