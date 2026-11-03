@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.2.1](https://github.com/hybridforgelab/unfold-mcp/compare/hybridforgelab-unfold-mcp-v0.2.0...hybridforgelab-unfold-mcp-v0.2.1) (2026-11-03)
+
+
+### Bug Fixes
+
+* declare all four tool hints ([#8](https://github.com/hybridforgelab/unfold-mcp/issues/8)) ([2203c07](https://github.com/hybridforgelab/unfold-mcp/commit/2203c07e0b1bbf47b10ea0b62f46e754ba8b19e0))
+
 ## [0.2.0](https://github.com/hybridforgelab/unfold-mcp/compare/hybridforgelab-unfold-mcp-v0.1.0...hybridforgelab-unfold-mcp-v0.2.0) (2026-11-02)
 
 
