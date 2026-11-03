@@ -3,6 +3,10 @@
 <!-- mcp-name: io.github.hybridforgelab/unfold-mcp -->
 
 [![M8ven Score](https://m8ven.ai/badge/mcp/hybridforgelab/unfold-mcp?variant=verified)](https://m8ven.ai/mcp/hybridforgelab/unfold-mcp?s=readme)
+[![CI](https://github.com/hybridforgelab/unfold-mcp/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/hybridforgelab/unfold-mcp/actions/workflows/ci.yml)
+[![PyPI](https://img.shields.io/pypi/v/hybridforgelab-unfold-mcp)](https://pypi.org/project/hybridforgelab-unfold-mcp/)
+[![Python 3.10+](https://img.shields.io/badge/python-3.10%2B-blue)](https://pypi.org/project/hybridforgelab-unfold-mcp/)
+[![License: MIT](https://img.shields.io/github/license/hybridforgelab/unfold-mcp)](LICENSE)
 
 Give your AI agent the content of PDF, Word (DOCX), PowerPoint (PPTX) and Excel (XLSX) documents as Markdown, from a URL or a local file.
 
@@ -52,6 +56,10 @@ claude mcp add unfold --env RAPIDAPI_KEY=your-rapidapi-key -- uvx --from hybridf
 | `HFL_MARKETPLACE` | `rapidapi` or `apimarket`, when both keys are set |
 
 Without a key the server still starts. The first tool call then explains where to get one.
+
+Also listed on Glama:
+
+[![unfold-mcp on Glama](https://glama.ai/mcp/servers/hybridforgelab/unfold-mcp/badge)](https://glama.ai/mcp/servers/hybridforgelab/unfold-mcp)
 
 ## 3. Tools
 
