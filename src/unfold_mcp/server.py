@@ -25,8 +25,10 @@ server = MCPServer(
     website_url="https://unfold.hybridforgelab.com",
 )
 
+READ_ONLY = ToolAnnotations(read_only_hint=True, destructive_hint=False, idempotent_hint=True, open_world_hint=True)
 
-@server.tool(annotations=ToolAnnotations(read_only_hint=True, open_world_hint=True))
+
+@server.tool(annotations=READ_ONLY)
 async def convert_document(
     url: Annotated[str | None, Field(description="Public http(s) URL of the document.")] = None,
     path: Annotated[str | None, Field(description="Local file to upload instead (up to 10 MB).")] = None,
