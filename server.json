@@ -8,12 +8,12 @@
     "id": "1440328860"
   },
   "websiteUrl": "https://unfold.hybridforgelab.com/integration.html#mcp-server",
-  "version": "0.2.2",
+  "version": "0.2.3",
   "packages": [
     {
       "registryType": "pypi",
       "identifier": "hybridforgelab-unfold-mcp",
-      "version": "0.2.2",
+      "version": "0.2.3",
       "runtimeHint": "uvx",
       "transport": {
         "type": "stdio"
